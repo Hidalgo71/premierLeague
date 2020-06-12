@@ -1,4 +1,3 @@
-import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sb
@@ -17,9 +16,9 @@ sb.countplot('wins', data=eplData)
 sb.countplot('team', hue='own_goals', data=eplData, )
 # plt.show()
 
-sb.countplot('clean_sheet', hue='team', data=eplData)
+# sb.countplot('clean_sheet', hue='team', data=eplData)
 plt.title('Clean Sheet teams')
-# plt.show()
+plt.show()
 
 print('Most Goal: ', eplData['goals'].max())
 print('Least Goal: ', eplData['goals'].min())
