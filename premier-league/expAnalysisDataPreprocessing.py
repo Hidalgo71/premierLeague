@@ -1,5 +1,6 @@
 import pandas as pd
 import seaborn as sns
+import numpy as np
 import matplotlib.pyplot as plt
 
 eplData = pd.read_csv("E:\PycharmProjects\premierLeague\premier-league\stats.csv")
@@ -39,3 +40,31 @@ g = sns.FacetGrid(eplData, hue="team", col="goals", margin_titles=True,
 g.map(plt.scatter, "own_goals", "goals_conceded", edcolor="w").add_legend()
 plt.subplots_adjust(top=0.8)
 g.fig.suptitle('Team by goals, Own and goals conceded')
+
+eplData["Goal by Teams"] = eplData["team"] + eplData["goals"]
+print(eplData["Goal by Teams"].value_counts())
+
+print("=========2=======")
+
+eplData.loc[eplData["Goal by Teams"] == 0, "FsizeD"] = 'singleton'
+eplData.loc[eplData["Goal by Teams"] == 1, "FsizeD"] = 'spouse'
+eplData.loc[(eplData["Goal by Teams"] > 1) &
+            (eplData["Goal by Teams"] < 5), "FsizeD"] = 'singleton'
+eplData.loc[eplData["Goal by Teams"] > 4, "FsizeD"] = 'large'
+
+# print(eplData["FsideD"].unique())
+# print(eplData["FsideD"].value_counts())
+
+
+corr = eplData.corr()
+fig = plt.figure()
+ax = fig.add_subplot(111)
+cax = ax.matshow(corr, cmap='coolwarm', vmin=-1, vmax=1)
+fig.colorbar(cax)
+ticks = np.arange(0, len(eplData.columns), 1)
+ax.set_xticks(ticks)
+plt.xticks(rotation = 90)
+ax.set_yticks(ticks)
+ax.set_xticklabels(eplData.columns)
+ax.set_yticklabels(eplData.columns)
+plt.show()
